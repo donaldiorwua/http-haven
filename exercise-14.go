@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func TemplateRenderer(w http.ResponseWriter, r http.Request) {
+func TemplateRenderer(w http.ResponseWriter, r *http.Request) {
 	const tempStr = `
 	</DOCTYPE html>
 	<html>
@@ -21,16 +21,22 @@ func TemplateRenderer(w http.ResponseWriter, r http.Request) {
 	title := r.URL.Query().Get("title")
 	body := r.URL.Query().Get("body")
 
-	PageData := struct {
+	type PageData struct {
 		Title string
 		Body  string
-	}{
+	}
+	page := PageData{
 		Title: title,
 		Body: body,
 	}
 
-	if PageData.Title == "" || PageData.Body == "" {
+	if page.Title == "" || page.Body == "" {
 		 http.Error(w, "title and body are required", http.StatusBadRequest)
+	}
+
+	err := tpl.Execute(w, PageData{Title: title, Body: body})
+	if err != nil {
+		http.Error(w,  "template execution failed", http.StatusInternalServerError)
 	}
 }
 

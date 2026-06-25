@@ -19,12 +19,13 @@ func main() {
 	http.HandleFunc("/headers", Headers)
 	http.HandleFunc("/form", FormDecoder)
 	http.HandleFunc("/status", StatusCodeFactory)
+	http.HandleFunc("/render", TemplateRenderer)
 
 	apiMux := http.NewServeMux()
 	apiMux.HandleFunc("/v1/greet", APISubtreeV2)
 	apiMux.HandleFunc("/v1/ping", APISubtreeV1)
 	mainMux := http.NewServeMux()
-	mainMux.Handle("/api/", http.StripPrefix("/api/", apiMux))
+	mainMux.Handle("/api/", http.StripPrefix("/api", apiMux))
 	http.ListenAndServe(":8080", mainMux)
 
 	//http.ListenAndServe(":8080", nil)
