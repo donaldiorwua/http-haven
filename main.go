@@ -1,8 +1,11 @@
 package main
 
-import "net/http"
+import (
+	"net/http"
+)
 
 func main() {
+
 	http.HandleFunc("/ping", PingPong)
 	http.HandleFunc("/hello", PathValidation)
 	http.HandleFunc("/count", TextCounter)
@@ -14,5 +17,6 @@ func main() {
 	http.HandleFunc("/method-inspector", MethodInspector)
 	http.HandleFunc("/echo", EchoChamber)
 	http.HandleFunc("/headers", Headers)
+	http.HandleFunc("/form", FormDecoder)
 	http.ListenAndServe(":8080", nil)
 }
