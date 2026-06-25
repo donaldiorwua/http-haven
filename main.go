@@ -10,5 +10,9 @@ func main() {
 	http.HandleFunc("/agent", UserAgent)
 	http.HandleFunc("/dashboard", SecureDashboard)
 	http.HandleFunc("/legacy", SimpleRedirector)
+	http.HandleFunc("/v2", v2)
+	http.HandleFunc("/method-inspector", MethodInspector)
+	http.HandleFunc("/echo", EchoChamber)
+	http.HandleFunc("/headers", Headers)
 	http.ListenAndServe(":8080", nil)
 }
